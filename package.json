@@ -2,7 +2,7 @@
   "name": "tanglesta.sh",
   "version": "0.1.0",
   "description": "The frontend to my project 'tanglestash'",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
