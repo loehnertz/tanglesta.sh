@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/loehnertz/tanglesta.sh/issues"
   },
-  "homepage": "https://github.com/loehnertz/tanglesta.sh#readme"
+  "homepage": "https://github.com/loehnertz/tanglesta.sh#readme",
+  "dependencies": {
+    "electron": "^1.7.10"
+  }
 }
