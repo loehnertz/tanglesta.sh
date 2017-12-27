@@ -1,4 +1,4 @@
-import {app, BrowserWindow} from 'electron'
+import {app, BrowserWindow, ipcMain, dialog} from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -42,4 +42,15 @@ app.on('activate', () => {
     if (mainWindow === null) {
         createWindow();
     }
+});
+
+
+// Custom Listeners
+
+ipcMain.on('open-file-dialog', function (e) {
+    dialog.showOpenDialog({
+        properties: ['openFile', 'openDirectory']
+    }, function (files) {
+        if (files) e.sender.send('selected-directory', files)
+    });
 });

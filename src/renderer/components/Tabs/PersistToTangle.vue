@@ -55,7 +55,32 @@
 <script>
     export default {
         name: 'persist-to-tangle',
-        methods: {}
+        data() {
+            return ({
+                isEncrypted: false,
+                isPersisting: true,
+                dataPersisted: false,
+                progessPercentage: 0,
+                remainingTime: '00:00:00',
+                selectedFilePath: '',
+                selectedFileName: '',
+            });
+        },
+        mounted() {
+            this.$electron.ipcRenderer.on('selected-directory', (event, path) => {
+                this.selectedFilePath = path[0];
+                this.getFileName(path[0]);
+            });
+        },
+        methods: {
+            openFileDialog() {
+                this.$electron.ipcRenderer.send('open-file-dialog');
+            },
+            getFileName(filePath) {
+                let filePathArray = filePath.split('/');  // TODO: Check if Windows needs backslashes here
+                this.selectedFileName = filePathArray[filePathArray.length - 1];
+            }
+        }
     }
 </script>
 
