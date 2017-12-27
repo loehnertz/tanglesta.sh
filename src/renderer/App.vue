@@ -26,11 +26,7 @@
     main {
         display: flex;
         flex-direction: column;
-        background: radial-gradient(
-                ellipse at top left,
-                rgba(255, 255, 255, 1) 40%,
-                rgba(229, 229, 229, .9) 100%
-        );
+        background-color: whitesmoke;
         height: 100vh;
         width: 100vw;
         padding: 2rem;
@@ -38,5 +34,19 @@
 
     section {
         padding: 1rem;
+    }
+
+    /* Overwrite Bulma's default style for these */
+    .input:focus,
+    .input.is-focused,
+    .input:active,
+    .input.is-active,
+    .textarea:focus,
+    .textarea.is-focused,
+    .textarea:active,
+    .textarea.is-active {
+        border-color: #00d1b2;
+        -webkit-box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
+        box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
     }
 </style>

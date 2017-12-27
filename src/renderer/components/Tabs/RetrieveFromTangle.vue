@@ -3,7 +3,7 @@
         <div class="box">
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input is-medium" type="text" placeholder="Entry-Hash">
+                    <input class="input is-primary is-medium" type="text" placeholder="Entry-Hash">
                     <span class="icon is-small is-left">
                         <i class="fa fa-hashtag"></i>
                     </span>

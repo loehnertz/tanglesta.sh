@@ -39,6 +39,10 @@
         cursor: pointer;
     }
 
+    .notification {
+        text-align: center;
+    }
+
     .tabs-component-tabs {
         border: solid 1px #ddd;
         border-radius: 6px;
