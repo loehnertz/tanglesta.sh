@@ -27,11 +27,20 @@
             </div>
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input" type="password" placeholder="Password" v-model="password"
-                           :disabled="!isEncrypted">
+                    <input class="input" :type="!isPasswordVisible ? 'text' : 'password'" placeholder="Password"
+                           v-model="password"
+                           :disabled="!isEncrypted"
+                    >
                     <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
                     </span>
+                </p>
+                <p class="control">
+                    <button class="button" :disabled="!isEncrypted" v-on:click="setPasswordVisibility">
+                        <span class="icon">
+                            <i :class="passwordInputClasses"></i>
+                        </span>
+                    </button>
                 </p>
                 <p class="control">
                     <span class="select">
@@ -68,6 +77,8 @@
                 selectedFilePath: '',
                 selectedFileName: '',
                 password: '',
+                isPasswordVisible: false,
+                passwordInputClasses: '',
                 isEncrypted: false,
                 isPersisting: true,
                 donePersisting: true,
@@ -80,6 +91,8 @@
                 this.selectedFilePath = path[0];
                 this.getFileName(path[0]);
             });
+
+            this.setPasswordVisibility();
         },
         methods: {
             askForFileToPersist() {
@@ -88,6 +101,14 @@
             getFileName(filePath) {
                 let filePathArray = filePath.split('/');  // TODO: Check if Windows needs backslashes here
                 this.selectedFileName = filePathArray[filePathArray.length - 1];
+            },
+            setPasswordVisibility() {
+                if (this.isPasswordVisible) {
+                    this.passwordInputClasses = 'fa fa-eye-slash';
+                } else {
+                    this.passwordInputClasses = 'fa fa-eye';
+                }
+                this.isPasswordVisible = !this.isPasswordVisible;
             },
             persist() {
 
