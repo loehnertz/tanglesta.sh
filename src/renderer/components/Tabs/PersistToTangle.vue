@@ -18,7 +18,7 @@
                     </label>
                 </div>
                 <div class="control">
-                    <a class="button is-primary is-medium">
+                    <a class="button is-primary is-medium" v-on:click="persist">
                         Persist
                     </a>
                 </div>
@@ -86,7 +86,10 @@
             getFileName(filePath) {
                 let filePathArray = filePath.split('/');  // TODO: Check if Windows needs backslashes here
                 this.selectedFileName = filePathArray[filePathArray.length - 1];
-            }
+            },
+            persist() {
+
+            },
         }
     }
 </script>

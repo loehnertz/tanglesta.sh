@@ -9,7 +9,7 @@
                     </span>
                 </p>
                 <div class="control">
-                    <a class="button is-primary is-medium">
+                    <a class="button is-primary is-medium" v-on:click="retrieve">
                         Retrieve
                     </a>
                 </div>
@@ -66,6 +66,9 @@
         methods: {
             openFilePath() {
                 this.$electron.shell.showItemInFolder(this.savedFilePath);
+            },
+            retrieve() {
+
             },
         }
     }
