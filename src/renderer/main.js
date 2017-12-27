@@ -4,8 +4,9 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 
-import Tabs from 'vue-tabs-component'
 import 'bulma/css/bulma.css'
+import 'font-awesome/css/font-awesome.css'
+import Tabs from 'vue-tabs-component'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'));
 Vue.http = Vue.prototype.$http = axios;
