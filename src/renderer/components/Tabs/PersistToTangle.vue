@@ -2,7 +2,7 @@
     <section>
         <div class="box">
             <div class="field has-addons">
-                <div class="file has-name is-expanded is-primary is-medium" id="file-container" v-on:click="openFileDialog()">
+                <div class="file has-name is-expanded is-primary is-medium" id="file-container" v-on:click="askForFileToPersist()">
                     <label class="file-label" id="file-label">
                             <span class="file-cta" id="file-cta">
                                 <span class="file-icon">
@@ -80,7 +80,7 @@
             });
         },
         methods: {
-            openFileDialog() {
+            askForFileToPersist() {
                 this.$electron.ipcRenderer.send('open-file-dialog');
             },
             getFileName(filePath) {

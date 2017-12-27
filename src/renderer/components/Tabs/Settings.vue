@@ -23,9 +23,31 @@
                 </p>
                 <p class="control">
                     <span class="select is-medium">
-                        <select title="isEncrypted" v-model="autoSeed" v-on:change="generateNewSeed">
+                        <select title="autoSeed" v-model="autoSeed" v-on:change="generateNewSeed">
                             <option :value="true">automatic seed</option>
                             <option :value="false">custom seed</option>
+                        </select>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="field has-addons">
+                <p class="control has-icons-left is-expanded">
+                    <input class="input is-medium" type="text" placeholder="Default Save Location"
+                           v-model="defaultSaveLocation"
+                           :disabled="!defaultLocation"
+                           v-on:click="askForDefaultSaveLocation"
+                    >
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-save"></i>
+                    </span>
+                </p>
+                <p class="control">
+                    <span class="select is-medium">
+                        <select title="defaultLocation" v-model="defaultLocation" v-on:change="resetDefaultSaveLocation">
+                            <option :value="false">ask for every download</option>
+                            <option :value="true">set default location</option>
                         </select>
                     </span>
                 </p>
@@ -40,6 +62,7 @@
         data() {
             return ({
                 autoSeed: true,
+                defaultLocation: false,
             });
         },
         computed: {
@@ -59,8 +82,20 @@
                     this.$store.commit('setSeed', seed);
                 }
             },
+            defaultSaveLocation: {
+                get() {
+                    return this.$store.state.Settings.defaultSaveLocation;
+                },
+                set(defaultSaveLocation) {
+                    this.$store.commit('setDefaultSaveLocation', defaultSaveLocation);
+                }
+            },
         },
         mounted() {
+            this.$electron.ipcRenderer.on('selected-directory', (event, path) => {
+                this.defaultSaveLocation = path[0];
+            });
+
             this.generateNewSeed();
         },
         methods: {
@@ -68,6 +103,12 @@
                 if (this.autoSeed) {
                     this.$store.commit('setSeed', 'NEWSEED');  // TODO: Implement this
                 }
+            },
+            askForDefaultSaveLocation() {
+                this.$electron.ipcRenderer.send('open-file-dialog');
+            },
+            resetDefaultSaveLocation() {
+                this.$store.commit('setDefaultSaveLocation', '');
             },
         }
     }

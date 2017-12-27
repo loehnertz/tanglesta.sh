@@ -1,6 +1,7 @@
 const state = {
     provider: '',
     seed: '',
+    defaultSaveLocation: '',
 };
 
 const mutations = {
@@ -9,6 +10,9 @@ const mutations = {
     },
     setSeed(state, seed) {
         state.seed = seed;
+    },
+    setDefaultSaveLocation(state, defaultSaveLocation) {
+        state.defaultSaveLocation = defaultSaveLocation;
     },
 };
 
