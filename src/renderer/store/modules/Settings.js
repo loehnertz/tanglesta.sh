@@ -1,8 +1,16 @@
 const state = {
-    main: 0
+    provider: '',
+    seed: '',
 };
 
-const mutations = {};
+const mutations = {
+    setProvider(state, provider) {
+        state.provider = provider;
+    },
+    setSeed(state, seed) {
+        state.seed = seed;
+    },
+};
 
 const actions = {};
 
