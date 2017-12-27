@@ -2,10 +2,10 @@
     <main>
         <h1>tanglesta.sh</h1>
         <tabs>
-            <tab name="Retrieve from Tangle">
+            <tab name="Retrieve">
                 <retrieve-from-tangle></retrieve-from-tangle>
             </tab>
-            <tab name="Persist to Tangle">
+            <tab name="Persist">
                 <persist-to-tangle></persist-to-tangle>
             </tab>
             <tab name="Settings">
