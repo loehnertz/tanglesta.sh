@@ -25,7 +25,7 @@
             </div>
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input" type="password" placeholder="Password" :disabled="!isEncrypted">
+                    <input class="input" type="password" placeholder="Password" v-model="password" :disabled="!isEncrypted">
                     <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
                     </span>
@@ -57,7 +57,8 @@
         name: 'persist-to-tangle',
         data() {
             return ({
-                isEncrypted: false,
+                isEncrypted: false,  // TODO: Toggling the property does not disable the password input sometimes
+                password: '',
                 isPersisting: true,
                 dataPersisted: false,
                 progessPercentage: 0,

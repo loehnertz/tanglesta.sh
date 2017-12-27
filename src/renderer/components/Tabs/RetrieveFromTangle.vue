@@ -3,20 +3,20 @@
         <div id="inital-inputs">
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input is-large" type="text" placeholder="Entry-Hash">
+                    <input class="input is-medium" type="text" placeholder="Entry-Hash">
                     <span class="icon is-small is-left">
                         <i class="fa fa-hashtag"></i>
                     </span>
                 </p>
                 <div class="control">
-                    <a class="button is-primary is-large">
+                    <a class="button is-primary is-medium">
                         Retrieve
                     </a>
                 </div>
             </div>
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input" type="password" placeholder="Password" :disabled="!isEncrypted">
+                    <input class="input" type="password" placeholder="Password" v-model="password" :disabled="!isEncrypted">
                     <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
                     </span>
@@ -46,7 +46,8 @@
         name: 'retrieve-from-tangle',
         data() {
             return ({
-                isEncrypted: false,
+                isEncrypted: false,  // TODO: Toggling the property does not disable the password input sometimes
+                password: '',
                 isRetrieving: true,
                 resultRetrieved: false,
                 progessPercentage: 0,
