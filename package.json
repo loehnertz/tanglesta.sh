@@ -3,7 +3,7 @@
   "productName": "tanglesta.sh",
   "version": "0.1.0",
   "author": "Jakob Löhnertz",
-  "description": "The frontend to my project 'tanglestash'",
+  "description": "The Electron app implementing my project 'Tanglestash'",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "repository": {

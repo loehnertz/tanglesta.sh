@@ -1,2 +1,2 @@
 # tanglesta.sh
-The frontend to my project 'tanglestash'
+The Electron app implementing my project 'Tanglestash'
