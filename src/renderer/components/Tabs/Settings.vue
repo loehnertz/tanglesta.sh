@@ -3,10 +3,7 @@
         <div class="box">
             <div class="field">
                 <p class="control has-icons-left">
-                    <input class="input is-medium" type="text" placeholder="Node-Provider"
-                           v-model="provider"
-                           v-on:keyup="commitMutation('setProvider', provider)"
-                    >
+                    <input class="input is-medium" type="text" placeholder="Node-Provider" v-model="provider">
                     <span class="icon is-small is-left">
                         <i class="fa fa-server"></i>
                     </span>
@@ -18,7 +15,6 @@
                 <p class="control has-icons-left is-expanded">
                     <input class="input is-medium" type="text" placeholder="Seed"
                            v-model="seed"
-                           v-on:keyup="commitMutation('setSeed', seed)"
                            :disabled="autoSeed"
                     >
                     <span class="icon is-small is-left">
@@ -27,7 +23,7 @@
                 </p>
                 <p class="control">
                     <span class="select is-medium">
-                        <select title="isEncrypted" v-model="autoSeed">
+                        <select title="isEncrypted" v-model="autoSeed" v-on:change="generateNewSeed">
                             <option :value="true">automatic seed</option>
                             <option :value="false">custom seed</option>
                         </select>
@@ -43,15 +39,36 @@
         name: 'settings',
         data() {
             return ({
-                provider: '',
-                seed: '',
                 autoSeed: true,
             });
         },
+        computed: {
+            provider: {
+                get() {
+                    return this.$store.state.Settings.provider;
+                },
+                set(provider) {
+                    this.$store.commit('setProvider', provider);
+                }
+            },
+            seed: {
+                get() {
+                    return this.$store.state.Settings.seed;
+                },
+                set(seed) {
+                    this.$store.commit('setSeed', seed);
+                }
+            },
+        },
+        mounted() {
+            this.generateNewSeed();
+        },
         methods: {
-            commitMutation(mutation, payload) {
-                this.$store.commit(mutation, payload);
-            }
+            generateNewSeed() {
+                if (this.autoSeed) {
+                    this.$store.commit('setSeed', 'NEWSEED');  // TODO: Implement this
+                }
+            },
         }
     }
 </script>
