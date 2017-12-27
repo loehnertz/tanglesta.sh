@@ -4,7 +4,10 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        name: 'persist-to-tangle',
+        methods: {}
+    }
 </script>
 
 <style scoped>
