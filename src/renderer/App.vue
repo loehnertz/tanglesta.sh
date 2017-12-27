@@ -33,4 +33,8 @@
         width: 100vw;
         padding: 1rem;
     }
+
+    section {
+        padding: 1rem;
+    }
 </style>
