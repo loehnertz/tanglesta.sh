@@ -25,8 +25,8 @@
                 <p class="control">
                 <span class="select">
                     <select title="isEncrypted" v-model="isEncrypted">
-                        <option value="false">not encrypted</option>
-                        <option value="true">encrypted</option>
+                        <option :value="false">not encrypted</option>
+                        <option :value="true">encrypted</option>
                     </select>
                 </span>
                 </p>
@@ -54,7 +54,7 @@
         name: 'retrieve-from-tangle',
         data() {
             return ({
-                isEncrypted: false,  // TODO: Toggling the property does not disable the password input sometimes
+                isEncrypted: false,
                 password: '',
                 isRetrieving: true,
                 resultSaved: true,

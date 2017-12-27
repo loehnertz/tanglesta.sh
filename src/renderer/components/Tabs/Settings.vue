@@ -22,8 +22,8 @@
                 <p class="control">
                     <span class="select is-medium">
                         <select title="isEncrypted" v-model="autoSeed">
-                            <option value="true">automatic seed</option>
-                            <option value="false">custom seed</option>
+                            <option :value="true">automatic seed</option>
+                            <option :value="false">custom seed</option>
                         </select>
                     </span>
                 </p>
@@ -39,7 +39,7 @@
             return ({
                 node: '',
                 seed: '',
-                autoSeed: true,  // TODO: Toggling the property does not disable the seed input sometimes
+                autoSeed: true,
             });
         },
         methods: {}
