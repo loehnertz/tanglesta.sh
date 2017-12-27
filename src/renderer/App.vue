@@ -24,6 +24,8 @@
     }
 
     main {
+        display: flex;
+        flex-direction: column;
         background: radial-gradient(
                 ellipse at top left,
                 rgba(255, 255, 255, 1) 40%,
@@ -31,7 +33,7 @@
         );
         height: 100vh;
         width: 100vw;
-        padding: 1rem;
+        padding: 2rem;
     }
 
     section {

@@ -29,9 +29,9 @@
 
 <style>
     h1 {
+        flex-basis: 10%;
         font-size: 2rem;
         text-align: center;
-        margin-bottom: 1rem;
     }
 
     .tabs-component-tabs {
@@ -75,6 +75,12 @@
     }
 
     @media (min-width: 700px) {
+        .tabs-component {
+            display: flex;
+            flex-direction: column;
+            flex-basis: 90%;
+        }
+
         .tabs-component-tabs {
             border: 0;
             align-items: stretch;
@@ -106,6 +112,7 @@
         }
 
         .tabs-component-panels {
+            flex: 1;
             position: relative;
             z-index: 2;
             background-color: #fff;
