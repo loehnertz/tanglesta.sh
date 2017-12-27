@@ -4,7 +4,10 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        name: 'settings',
+        methods: {}
+    }
 </script>
 
 <style scoped>
