@@ -1,6 +1,6 @@
 <template>
     <main>
-        <h1>tanglesta.sh</h1>
+        <h1 v-on:click="openLink('http://tanglesta.sh/')">tanglesta.sh</h1>
         <tabs>
             <tab name="Retrieve">
                 <retrieve-from-tangle></retrieve-from-tangle>
@@ -23,7 +23,11 @@
     export default {
         name: 'index',
         components: {RetrieveFromTangle, PersistToTangle, Settings},
-        methods: {}
+        methods: {
+            openLink(link) {
+                this.$electron.shell.openExternal(link);
+            }
+        }
     }
 </script>
 
@@ -32,6 +36,7 @@
         flex-basis: 10%;
         font-size: 2rem;
         text-align: center;
+        cursor: pointer;
     }
 
     .tabs-component-tabs {
