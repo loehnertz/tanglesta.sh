@@ -45,8 +45,9 @@
                 </p>
                 <p class="control">
                     <span class="select is-medium">
-                        <select title="defaultLocation" v-model="defaultLocation" v-on:change="resetDefaultSaveLocation">
-                            <option :value="false">ask for every download</option>
+                        <select title="defaultLocation" v-model="defaultLocation"
+                                v-on:change="resetDefaultSaveLocation">
+                            <option :value="false">ask for every retrieval</option>
                             <option :value="true">set default location</option>
                         </select>
                     </span>
