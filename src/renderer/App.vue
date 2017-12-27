@@ -36,7 +36,7 @@
         padding: 1rem;
     }
 
-    /* Overwrite Bulma's default style for these */
+    /* Overwriting Bulma's default styles for these */
     .input:focus,
     .input.is-focused,
     .input:active,
@@ -48,5 +48,13 @@
         border-color: #00d1b2;
         -webkit-box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
         box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
+    }
+
+    .file-name {
+        max-width: 15em;
+    }
+
+    .notification {
+        text-align: center;
     }
 </style>
