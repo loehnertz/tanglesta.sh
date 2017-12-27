@@ -106,7 +106,7 @@
                 }
             },
             askForDefaultSaveLocation() {
-                this.$electron.ipcRenderer.send('open-file-dialog');
+                this.$electron.ipcRenderer.send('open-directory-dialog');
             },
             resetDefaultSaveLocation() {
                 this.$store.commit('setDefaultSaveLocation', '');

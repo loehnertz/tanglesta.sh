@@ -47,10 +47,18 @@ app.on('activate', () => {
 
 // Custom Listeners
 
-ipcMain.on('open-file-dialog', function (e) {
+ipcMain.on('open-file-dialog', (e) => {
     dialog.showOpenDialog({
-        properties: ['openFile', 'openDirectory']
-    }, function (files) {
-        if (files) e.sender.send('selected-directory', files)
+        properties: ['openFile']
+    }, (files) => {
+        if (files) e.sender.send('selected-file', files)
+    });
+});
+
+ipcMain.on('open-directory-dialog', (e) => {
+    dialog.showOpenDialog({
+        properties: ['openDirectory']
+    }, (directories) => {
+        if (directories) e.sender.send('selected-directory', directories)
     });
 });

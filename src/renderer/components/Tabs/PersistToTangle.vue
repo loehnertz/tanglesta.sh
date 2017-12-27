@@ -76,7 +76,7 @@
             });
         },
         mounted() {
-            this.$electron.ipcRenderer.on('selected-directory', (event, path) => {
+            this.$electron.ipcRenderer.on('selected-file', (event, path) => {
                 this.selectedFilePath = path[0];
                 this.getFileName(path[0]);
             });
