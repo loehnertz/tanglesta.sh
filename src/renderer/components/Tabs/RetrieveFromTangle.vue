@@ -16,11 +16,20 @@
             </div>
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input" type="password" placeholder="Password" v-model="password"
-                           :disabled="!isEncrypted">
+                    <input class="input" :type="!isPasswordVisible ? 'text' : 'password'" placeholder="Password"
+                           v-model="password"
+                           :disabled="!isEncrypted"
+                    >
                     <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
                     </span>
+                </p>
+                <p class="control">
+                    <button class="button" :disabled="!isEncrypted" v-on:click="setPasswordVisibility">
+                        <span class="icon">
+                            <i :class="passwordInputClasses"></i>
+                        </span>
+                    </button>
                 </p>
                 <p class="control">
                 <span class="select">
@@ -56,6 +65,8 @@
             return ({
                 entryHash: '',
                 password: '',
+                passwordInputClasses: '',
+                isPasswordVisible: false,
                 isEncrypted: false,
                 isRetrieving: true,
                 doneRetrieving: true,
@@ -64,9 +75,20 @@
                 savedFilePath: '/Users/jloehnertz/Music',
             });
         },
+        mounted() {
+            this.setPasswordVisibility();
+        },
         methods: {
             openFilePath() {
                 this.$electron.shell.showItemInFolder(this.savedFilePath);
+            },
+            setPasswordVisibility() {
+                if (this.isPasswordVisible) {
+                    this.passwordInputClasses = 'fa fa-eye-slash';
+                } else {
+                    this.passwordInputClasses = 'fa fa-eye';
+                }
+                this.isPasswordVisible = !this.isPasswordVisible;
             },
             retrieve() {
 
