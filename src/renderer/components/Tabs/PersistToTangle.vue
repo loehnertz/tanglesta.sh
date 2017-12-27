@@ -85,5 +85,25 @@
 </script>
 
 <style scoped>
+    #file-container, #file-label {
+        flex: 1;
+    }
 
+    #file-cta {
+        flex: 1;
+        justify-content: center;
+    }
+
+    #file-name {
+        flex: 2;
+        border-radius: 0;
+    }
+
+    #inital-inputs {
+        margin-bottom: 4rem;
+    }
+
+    #remaining-time {
+        font-weight: bold;
+    }
 </style>
