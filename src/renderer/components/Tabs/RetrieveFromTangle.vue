@@ -3,7 +3,7 @@
         <div class="box">
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input is-primary is-medium" type="text" placeholder="Entry-Hash">
+                    <input class="input is-primary is-medium" type="text" placeholder="Entry-Hash" v-model="entryHash">
                     <span class="icon is-small is-left">
                         <i class="fa fa-hashtag"></i>
                     </span>
@@ -40,7 +40,7 @@
                 Estimated Remaining Time: <span id="remaining-time">{{ remainingTime }}</span>
             </div>
         </div>
-        <div class="box" v-show="resultSaved">
+        <div class="box" v-show="doneRetrieving">
             <label class="label">Saved File</label>
             <div class="notification">
                 <span id="file-path" v-on:click="openFilePath">{{ savedFilePath }}</span>
@@ -54,10 +54,11 @@
         name: 'retrieve-from-tangle',
         data() {
             return ({
-                isEncrypted: false,
+                entryHash: '',
                 password: '',
+                isEncrypted: false,
                 isRetrieving: true,
-                resultSaved: true,
+                doneRetrieving: true,
                 progessPercentage: 0,
                 remainingTime: '00:00:00',
                 savedFilePath: '/Users/jloehnertz/Music',

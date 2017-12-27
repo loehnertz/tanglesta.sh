@@ -49,7 +49,7 @@
                 Estimated Remaining Time: <span id="remaining-time">{{ remainingTime }}</span>
             </div>
         </div>
-        <div class="box" v-show="dataPersisted">
+        <div class="box" v-show="donePersisting">
             <div class="control">
                 <label class="label">Entry-Hash</label>
                 <textarea id="entry-hash" class="textarea is-hovered is-large" title="entry-hash" readonly></textarea>
@@ -63,14 +63,14 @@
         name: 'persist-to-tangle',
         data() {
             return ({
-                isEncrypted: false,
-                password: '',
-                isPersisting: true,
-                dataPersisted: true,
-                progessPercentage: 0,
-                remainingTime: '00:00:00',
                 selectedFilePath: '',
                 selectedFileName: '',
+                password: '',
+                isEncrypted: false,
+                isPersisting: true,
+                donePersisting: true,
+                progessPercentage: 0,
+                remainingTime: '00:00:00',
             });
         },
         mounted() {
