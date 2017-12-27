@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div id="inital-inputs">
+        <div class="box">
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
                     <input class="input is-medium" type="text" placeholder="Entry-Hash">
@@ -16,7 +16,8 @@
             </div>
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input" type="password" placeholder="Password" v-model="password" :disabled="!isEncrypted">
+                    <input class="input" type="password" placeholder="Password" v-model="password"
+                           :disabled="!isEncrypted">
                     <span class="icon is-small is-left">
                         <i class="fa fa-lock"></i>
                     </span>
@@ -31,12 +32,18 @@
                 </p>
             </div>
         </div>
-        <progress class="progress is-primary is-medium" :value="progessPercentage" max="100" v-show="isRetrieving">{{ progessPercentage }}%</progress>
-        <div class="notification" v-show="isRetrieving">
-            Estimated Remaining Time: <span id="remaining-time">{{ remainingTime }}</span>
+        <div class="box" v-show="isRetrieving">
+            <progress class="progress is-primary is-medium" :value="progessPercentage" max="100">
+                {{ progessPercentage }}%
+            </progress>
+            <div class="notification">
+                Estimated Remaining Time: <span id="remaining-time">{{ remainingTime }}</span>
+            </div>
         </div>
-        <div class="control">
-            <textarea class="textarea" title="result" readonly v-show="resultRetrieved"></textarea>
+        <div class="box" v-show="resultRetrieved">
+            <div class="control">
+                <textarea id="result" class="textarea is-hovered is-large" title="result" readonly></textarea>
+            </div>
         </div>
     </section>
 </template>
