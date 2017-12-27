@@ -5,8 +5,8 @@
                 <p class="control has-icons-left is-expanded">
                     <input class="input is-large" type="text" placeholder="Entry-Hash">
                     <span class="icon is-small is-left">
-                    <i class="fa fa-hashtag"></i>
-                </span>
+                        <i class="fa fa-hashtag"></i>
+                    </span>
                 </p>
                 <div class="control">
                     <a class="button is-primary is-large">
@@ -18,8 +18,8 @@
                 <p class="control has-icons-left is-expanded">
                     <input class="input" type="password" placeholder="Password" :disabled="!isEncrypted">
                     <span class="icon is-small is-left">
-                    <i class="fa fa-lock"></i>
-                </span>
+                        <i class="fa fa-lock"></i>
+                    </span>
                 </p>
                 <p class="control">
                 <span class="select">
@@ -31,7 +31,7 @@
                 </p>
             </div>
         </div>
-        <progress class="progress is-primary is-medium" value="15" max="100" v-show="isRetrieving">30%</progress>
+        <progress class="progress is-primary is-medium" :value="progessPercentage" max="100" v-show="isRetrieving">{{ progessPercentage }}%</progress>
         <div class="notification" v-show="isRetrieving">
             Estimated Remaining Time: <span id="remaining-time">{{ remainingTime }}</span>
         </div>
@@ -49,6 +49,7 @@
                 isEncrypted: false,
                 isRetrieving: true,
                 resultRetrieved: false,
+                progessPercentage: 0,
                 remainingTime: '00:00:00',
             });
         },
