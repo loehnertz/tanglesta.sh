@@ -40,9 +40,10 @@
                 Estimated Remaining Time: <span id="remaining-time">{{ remainingTime }}</span>
             </div>
         </div>
-        <div class="box" v-show="resultRetrieved">
-            <div class="control">
-                <textarea id="result" class="textarea is-hovered is-large" title="result" readonly></textarea>
+        <div class="box" v-show="resultSaved">
+            <label class="label">Saved File</label>
+            <div class="notification">
+                <span id="file-path" v-on:click="openFilePath">{{ savedFilePath }}</span>
             </div>
         </div>
     </section>
@@ -56,21 +57,27 @@
                 isEncrypted: false,  // TODO: Toggling the property does not disable the password input sometimes
                 password: '',
                 isRetrieving: true,
-                resultRetrieved: false,
+                resultSaved: true,
                 progessPercentage: 0,
                 remainingTime: '00:00:00',
+                savedFilePath: '/Users/jloehnertz/Music',
             });
         },
-        methods: {}
+        methods: {
+            openFilePath() {
+                this.$electron.shell.showItemInFolder(this.savedFilePath);
+            },
+        }
     }
 </script>
 
 <style scoped>
-    #inital-inputs {
-        margin-bottom: 4rem;
-    }
-
     #remaining-time {
         font-weight: bold;
+    }
+
+    #file-path {
+        color: #00d1b2;
+        cursor: pointer;
     }
 </style>
