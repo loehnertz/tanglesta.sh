@@ -47,6 +47,18 @@ app.on('activate', () => {
 
 // Custom Listeners
 
+ipcMain.on('open-save-dialog', (e) => {
+    const options = {
+        title: 'Select save location',
+        filters: [
+            {name: 'All Files', extensions: ['*']},
+        ],
+    };
+    dialog.showSaveDialog(options, (filename) => {
+        e.sender.send('selected-save-location', filename);
+    });
+});
+
 ipcMain.on('open-file-dialog', (e) => {
     dialog.showOpenDialog({
         properties: ['openFile']

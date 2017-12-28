@@ -52,13 +52,22 @@
         <div class="box" v-show="doneRetrieving">
             <label class="label">Saved File</label>
             <div class="notification">
-                <span id="file-path" v-on:click="openFilePath">{{ savedFilePath }}</span>
+                <span id="file-path" v-on:click="openFilePath">{{ saveFilePath }}</span>
             </div>
         </div>
     </section>
 </template>
 
 <script>
+    import fs from 'fs';
+    import {
+        Tanglestash,
+        IncorrectPasswordError,
+        IncorrentDatatypeError,
+        IncorrectTransactionHashError,
+        NodeOutdatedError,
+    } from 'tanglestash'
+
     export default {
         name: 'retrieve-from-tangle',
         data() {
@@ -70,17 +79,41 @@
                 isEncrypted: false,
                 isRetrieving: true,
                 doneRetrieving: true,
+                markyEntries: [],
                 progessPercentage: 0,
                 remainingTime: '00:00:00',
-                savedFilePath: '/Users/jloehnertz/Music',
+                saveFilePath: '',
+                tanglestash: null,
             });
         },
+        computed: {
+            provider: {
+                get() {
+                    return this.$store.state.Settings.provider;
+                },
+                set(provider) {
+                    this.$store.commit('setProvider', provider);
+                }
+            },
+        },
         mounted() {
+            this.$electron.ipcRenderer.on('selected-save-location', (event, path) => {
+                if (path) {
+                    this.saveFilePath = path;
+                } else {
+                    // TODO: Show error message to select proper path
+                }
+            });
+
+            this.setupTanglestash();
             this.setPasswordVisibility();
         },
         methods: {
+            setupTanglestash() {
+                this.tanglestash = new Tanglestash(this.provider, 'file');
+            },
             openFilePath() {
-                this.$electron.shell.showItemInFolder(this.savedFilePath);
+                this.$electron.shell.showItemInFolder(this.saveFilePath);
             },
             setPasswordVisibility() {
                 if (this.isPasswordVisible) {
@@ -90,8 +123,20 @@
                 }
                 this.isPasswordVisible = !this.isPasswordVisible;
             },
+            saveRetrievedFile(buffer) {
+                let saveFileLoop = setInterval(() => {
+                    if (this.saveFilePath) {
+                        fs.writeFileSync(this.saveFilePath, buffer);
+                        clearInterval(saveFileLoop);
+                    }
+                }, 1234);
+            },
             retrieve() {
-
+                this.$electron.ipcRenderer.send('open-save-dialog');
+                this.tanglestash.readFromTangle(this.entryHash, this.password).then((content) => {
+                    this.markyEntries = this.tanglestash.getAllMarkyEntries();
+                    this.saveRetrievedFile(content);
+                });
             },
         }
     }
