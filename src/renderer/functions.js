@@ -1,4 +1,5 @@
 import {
+    Tanglestash,
     IncorrectPasswordError,
     IncorrentDatatypeError,
     IncorrectTransactionHashError,
@@ -7,6 +8,10 @@ import {
 
 
 export default {
+    tanglestash(provider, seed) {
+        // TODO: Later allow to also be able to use the datatype 'string'
+        return new Tanglestash(provider, 'file', seed);
+    },
     handleErrors(err) {
         // TODO: Switch to modal error messages
         switch (err.name) {
