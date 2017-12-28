@@ -123,20 +123,48 @@
                 }
                 this.isPasswordVisible = !this.isPasswordVisible;
             },
+            handleErrors(err) {
+                // TODO: Switch to modal error messages
+                switch (err.name) {
+                    case new IncorrectPasswordError().name:
+                        console.error("The provided password is not correct!", err.message);
+                        break;
+                    case new IncorrentDatatypeError().name:
+                        console.error("The provided datatype does not exist!", err.message);
+                        break;
+                    case new IncorrectTransactionHashError().name:
+                        console.error("The provided entry-hash is not valid!", err.message);
+                        break;
+                    case new NodeOutdatedError().name:
+                        console.error("The provided node is outdated!", err.message);
+                        break;
+                    default:
+                        console.error("An unidentified error occured!", err);
+                        break;
+                }
+            },
             saveRetrievedFile(buffer) {
                 let saveFileLoop = setInterval(() => {
                     if (this.saveFilePath) {
-                        fs.writeFileSync(this.saveFilePath, buffer);
                         clearInterval(saveFileLoop);
+                        fs.writeFileSync(this.saveFilePath, buffer);
                     }
                 }, 1234);
             },
-            retrieve() {
-                this.$electron.ipcRenderer.send('open-save-dialog');
-                this.tanglestash.readFromTangle(this.entryHash, this.password).then((content) => {
+            async retrieve() {
+                let markyReadoutLoop = setInterval(() => {
                     this.markyEntries = this.tanglestash.getAllMarkyEntries();
+                }, 1234);
+
+                try {
+                    let content = await this.tanglestash.readFromTangle(this.entryHash, this.password);
+                    clearInterval(markyReadoutLoop);
+                    this.$electron.ipcRenderer.send('open-save-dialog');
                     this.saveRetrievedFile(content);
-                });
+                } catch (err) {
+                    clearInterval(markyReadoutLoop);
+                    this.handleErrors(err);
+                }
             },
         }
     }
