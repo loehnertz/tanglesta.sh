@@ -63,12 +63,15 @@
 </template>
 
 <script>
+    import functions from '../../functions'
+
     export default {
         name: 'settings',
         data() {
             return ({
                 autoSeed: true,
                 defaultLocation: false,
+                tanglestash: null,
             });
         },
         computed: {
@@ -101,11 +104,17 @@
             this.$electron.ipcRenderer.on('selected-directory', (event, path) => {
                 this.defaultSaveLocation = path[0];
             });
+
+            this.setupTanglestash();
+            this.generateNewSeed();
         },
         methods: {
+            setupTanglestash() {
+                this.tanglestash = functions.tanglestash(this.provider, this.seed);
+            },
             generateNewSeed() {
                 if (this.autoSeed) {
-                    this.$store.commit('setSeed', 'NEWSEED');  // TODO: Implement this
+                    this.$store.commit('setSeed', this.tanglestash.generateRandomIotaSeed());
                 }
             },
             askForDefaultSaveLocation() {
