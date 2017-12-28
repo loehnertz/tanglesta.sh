@@ -79,7 +79,7 @@
                 markyEntries: [],
                 progessPercentage: 0,
                 remainingTime: '00:00:00',
-                saveFilePath: '',
+                saveFilePath: null,
                 tanglestash: null,
             });
         },
@@ -114,7 +114,9 @@
                 if (path) {
                     this.saveFilePath = path;
                 } else {
-                    // TODO: Show error message to select proper path
+                    this.saveFilePath = null;
+                    this.isRetrieving = false;
+                    this.doneRetrieving = false;
                 }
             });
 
@@ -122,7 +124,7 @@
         },
         methods: {
             openFilePath() {
-                this.$electron.shell.showItemInFolder(this.saveFilePath);
+                this.$electron.shell.showItemInFolder(this.saveFilePath ? this.saveFilePath : '');
             },
             setPasswordVisibility() {
                 if (this.isPasswordVisible) {
@@ -141,6 +143,7 @@
                 }, 1234);
             },
             async retrieve() {
+                this.saveFilePath = null;
                 this.doneRetrieving = false;
                 this.isRetrieving = true;
 
