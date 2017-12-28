@@ -151,5 +151,10 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, .05);
             padding: 2em 2em;
         }
+
+        .tabs-component-tab i {
+            position: relative;
+            top: 1px;
+        }
     }
 </style>
