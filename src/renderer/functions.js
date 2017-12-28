@@ -44,9 +44,12 @@ export default {
         let averageTimePerChunk = (totalTimeSoFar / markyEntries.length);
         let estimatedTotalTime = (averageTimePerChunk * parseInt(total));
 
+        let progressPercentage = parseInt((position / total) * 100);
+        let remainingTime = moment.duration((estimatedTotalTime - parseInt(timeElapsed)), 'milliseconds').format('hh:mm:ss', {trim: false});
+
         return ({
-            progressPercentage: parseInt((position / total) * 100),
-            remainingTime: moment.duration((estimatedTotalTime - parseInt(timeElapsed)), 'milliseconds').format("hh:mm:ss"),
+            progressPercentage: isNaN(progressPercentage) ? 0 : progressPercentage,
+            remainingTime: remainingTime,
         });
     },
 };
