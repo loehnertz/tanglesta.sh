@@ -150,9 +150,20 @@
 
                 this.tanglestash = functions.tanglestash(this.provider, this.seed);
 
+                let timeElapsed = 0;
+                let markyReadoutLoopInterval = 420;  // Always in milliseconds
                 let markyReadoutLoop = setInterval(() => {
                     this.markyEntries = this.tanglestash.getAllMarkyEntries();
-                }, 1234);
+                    let progressAndRemainingTime = functions.calculateProgessAndRemainingTime(
+                        this.tanglestash.currentChunkPosition,
+                        this.tanglestash.totalChunkAmount,
+                        this.markyEntries,
+                        timeElapsed,
+                    );
+                    this.progessPercentage = progressAndRemainingTime.progressPercentage;
+                    this.remainingTime = progressAndRemainingTime.remainingTime;
+                    timeElapsed += markyReadoutLoopInterval;
+                }, markyReadoutLoopInterval);
 
                 try {
                     this.entryHash = await this.tanglestash.saveToTangle(this.selectedFilePath, this.password);
