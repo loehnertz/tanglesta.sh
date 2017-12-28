@@ -60,13 +60,7 @@
 
 <script>
     import fs from 'fs';
-    import {
-        Tanglestash,
-        IncorrectPasswordError,
-        IncorrentDatatypeError,
-        IncorrectTransactionHashError,
-        NodeOutdatedError,
-    } from 'tanglestash'
+    import functions from '../../functions'
 
     export default {
         name: 'retrieve-from-tangle',
@@ -95,6 +89,14 @@
                     this.$store.commit('setProvider', provider);
                 }
             },
+            seed: {
+                get() {
+                    return this.$store.state.Settings.seed;
+                },
+                set(seed) {
+                    this.$store.commit('setSeed', seed);
+                }
+            },
         },
         mounted() {
             this.$electron.ipcRenderer.on('selected-save-location', (event, path) => {
@@ -105,13 +107,9 @@
                 }
             });
 
-            this.setupTanglestash();
             this.setPasswordVisibility();
         },
         methods: {
-            setupTanglestash() {
-                this.tanglestash = new Tanglestash(this.provider, 'file');
-            },
             openFilePath() {
                 this.$electron.shell.showItemInFolder(this.saveFilePath);
             },
@@ -123,26 +121,6 @@
                 }
                 this.isPasswordVisible = !this.isPasswordVisible;
             },
-            handleErrors(err) {
-                // TODO: Switch to modal error messages
-                switch (err.name) {
-                    case new IncorrectPasswordError().name:
-                        console.error("The provided password is not correct!", err.message);
-                        break;
-                    case new IncorrentDatatypeError().name:
-                        console.error("The provided datatype does not exist!", err.message);
-                        break;
-                    case new IncorrectTransactionHashError().name:
-                        console.error("The provided entry-hash is not valid!", err.message);
-                        break;
-                    case new NodeOutdatedError().name:
-                        console.error("The provided node is outdated!", err.message);
-                        break;
-                    default:
-                        console.error("An unidentified error occured!", err);
-                        break;
-                }
-            },
             saveRetrievedFile(buffer) {
                 let saveFileLoop = setInterval(() => {
                     if (this.saveFilePath) {
@@ -152,6 +130,8 @@
                 }, 1234);
             },
             async retrieve() {
+                this.tanglestash = functions.tanglestash(this.provider, this.seed);
+
                 let markyReadoutLoop = setInterval(() => {
                     this.markyEntries = this.tanglestash.getAllMarkyEntries();
                 }, 1234);
@@ -163,7 +143,7 @@
                     this.saveRetrievedFile(content);
                 } catch (err) {
                     clearInterval(markyReadoutLoop);
-                    this.handleErrors(err);
+                    functions.handleErrors(err);
                 }
             },
         }
