@@ -1,3 +1,5 @@
+import moment from 'moment'
+import momentDurationFormatSetup from 'moment-duration-format';
 import {
     Tanglestash,
     IncorrectPasswordError,
@@ -5,6 +7,8 @@ import {
     IncorrectTransactionHashError,
     NodeOutdatedError,
 } from 'tanglestash'
+
+momentDurationFormatSetup(moment);
 
 
 export default {
@@ -31,5 +35,18 @@ export default {
                 console.error("An unidentified error occured!", err);
                 break;
         }
+    },
+    calculateProgessAndRemainingTime(position, total, markyEntries, timeElapsed) {
+        let totalTimeSoFar = 0;
+        for (let entry in markyEntries) {
+            totalTimeSoFar += parseInt(markyEntries[entry]["duration"]);
+        }
+        let averageTimePerChunk = (totalTimeSoFar / markyEntries.length);
+        let estimatedTotalTime = (averageTimePerChunk * parseInt(total));
+
+        return ({
+            progressPercentage: parseInt((position / total) * 100),
+            remainingTime: moment.duration((estimatedTotalTime - parseInt(timeElapsed)), 'milliseconds').format("hh:mm:ss"),
+        });
     },
 };
