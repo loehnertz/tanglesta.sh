@@ -2,13 +2,13 @@
     <main>
         <h1 v-on:click="openLink('http://tanglesta.sh/')">tanglesta.sh</h1>
         <tabs>
-            <tab name="Retrieve">
+            <tab name="Retrieve" :prefix="prefixRetrieve">
                 <retrieve-from-tangle></retrieve-from-tangle>
             </tab>
-            <tab name="Persist">
+            <tab name="Persist" :prefix="prefixPersist">
                 <persist-to-tangle></persist-to-tangle>
             </tab>
-            <tab name="Settings">
+            <tab name="Settings" :prefix="prefixSettings">
                 <settings></settings>
             </tab>
         </tabs>
@@ -23,10 +23,17 @@
     export default {
         name: 'index',
         components: {RetrieveFromTangle, PersistToTangle, Settings},
+        data() {
+            return({
+                prefixRetrieve: '<i class="fa fa-upload"></i>&nbsp;&nbsp;',
+                prefixPersist: '<i class="fa fa-download"></i>&nbsp;&nbsp;',
+                prefixSettings: '<i class="fa fa-cog"></i>&nbsp;&nbsp;',
+            });
+        },
         methods: {
             openLink(link) {
                 this.$electron.shell.openExternal(link);
-            }
+            },
         }
     }
 </script>
