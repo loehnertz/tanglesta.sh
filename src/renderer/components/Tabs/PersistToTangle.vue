@@ -63,13 +63,17 @@
         <div class="box" v-show="donePersisting">
             <div class="control">
                 <label class="label">Entry-Hash</label>
-                <textarea id="entry-hash" class="textarea is-hovered is-large" title="entry-hash" readonly></textarea>
+                <textarea id="entry-hash" class="textarea is-hovered is-large" title="entry-hash" readonly
+                          v-model="entryHash"
+                ></textarea>
             </div>
         </div>
     </section>
 </template>
 
 <script>
+    import functions from '../../functions'
+
     export default {
         name: 'persist-to-tangle',
         data() {
@@ -82,9 +86,30 @@
                 isEncrypted: false,
                 isPersisting: true,
                 donePersisting: true,
+                markyEntries: [],
                 progessPercentage: 0,
                 remainingTime: '00:00:00',
+                entryHash: '',
+                tanglestash: null,
             });
+        },
+        computed: {
+            provider: {
+                get() {
+                    return this.$store.state.Settings.provider;
+                },
+                set(provider) {
+                    this.$store.commit('setProvider', provider);
+                }
+            },
+            seed: {
+                get() {
+                    return this.$store.state.Settings.seed;
+                },
+                set(seed) {
+                    this.$store.commit('setSeed', seed);
+                }
+            },
         },
         mounted() {
             this.$electron.ipcRenderer.on('selected-file', (event, path) => {
@@ -110,8 +135,20 @@
                 }
                 this.isPasswordVisible = !this.isPasswordVisible;
             },
-            persist() {
+            async persist() {
+                this.tanglestash = functions.tanglestash(this.provider, this.seed);
 
+                let markyReadoutLoop = setInterval(() => {
+                    this.markyEntries = this.tanglestash.getAllMarkyEntries();
+                }, 1234);
+
+                try {
+                    this.entryHash = await this.tanglestash.saveToTangle(this.selectedFilePath, this.password);
+                    clearInterval(markyReadoutLoop);
+                } catch (err) {
+                    clearInterval(markyReadoutLoop);
+                    functions.handleErrors(err);
+                }
             },
         }
     }
