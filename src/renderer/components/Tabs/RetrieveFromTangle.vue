@@ -100,6 +100,14 @@
                     this.$store.commit('setSeed', seed);
                 }
             },
+            defaultSaveLocation: {
+                get() {
+                    return this.$store.state.Settings.defaultSaveLocation;
+                },
+                set(defaultSaveLocation) {
+                    this.$store.commit('setDefaultSaveLocation', defaultSaveLocation);
+                }
+            },
         },
         mounted() {
             this.$electron.ipcRenderer.on('selected-save-location', (event, path) => {
@@ -144,7 +152,7 @@
 
                 try {
                     let content = await this.tanglestash.readFromTangle(this.entryHash, this.password);
-                    this.$electron.ipcRenderer.send('open-save-dialog');
+                    this.$electron.ipcRenderer.send('open-save-dialog', this.defaultSaveLocation);
                     this.saveRetrievedFile(content);
                 } catch (err) {
                     functions.handleErrors(err);
