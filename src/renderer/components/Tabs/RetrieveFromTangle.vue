@@ -2,7 +2,7 @@
     <section>
         <div class="box">
             <div class="field has-addons">
-                <p class="control has-icons-left is-expanded">
+                <p class="control has-icons-left is-expanded" v-bind:class="{'is-loading': isRetrieving}">
                     <input class="input is-primary is-medium" type="text" placeholder="Entry-Hash" v-model="entryHash">
                     <span class="icon is-small is-left">
                         <i class="fa fa-hashtag"></i>
@@ -158,5 +158,10 @@
     #file-path {
         color: #00d1b2;
         cursor: pointer;
+    }
+
+    /* Overwriting Bulma's default styles for these */
+    .control.is-loading::after {
+        top: 1.025em;
     }
 </style>

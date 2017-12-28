@@ -2,8 +2,9 @@
     <section>
         <div class="box">
             <div class="field has-addons">
-                <div class="file has-name is-expanded is-primary is-medium" id="file-container"
+                <div class="file control has-name is-expanded is-primary is-medium" id="file-container"
                      v-on:click="askForFileToPersist"
+                     v-bind:class="{'is-loading': isPersisting}"
                 >
                     <label class="file-label" id="file-label">
                             <span class="file-cta" id="file-cta">
@@ -27,7 +28,8 @@
             </div>
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input" :type="!isPasswordVisible ? 'text' : 'password'" placeholder="Password"
+                    <input class="input"
+                           :type="!isPasswordVisible ? 'text' : 'password'" placeholder="Password"
                            v-model="password"
                            :disabled="!isEncrypted"
                     >
@@ -177,5 +179,10 @@
         min-height: 0;
         max-height: 100px;
         height: 100px;
+    }
+
+    /* Overwriting Bulma's default styles for these */
+    .control.is-loading::after {
+        top: 0.725em;
     }
 </style>
