@@ -46,7 +46,10 @@
                 </p>
                 <p class="control">
                     <span class="select">
-                        <select title="isEncrypted" v-model="isEncrypted">
+                        <select title="isEncrypted"
+                                v-model="isEncrypted"
+                                v-on:change="!isEncrypted ? password = '' : null"
+                        >
                             <option :value="false">not encrypted</option>
                             <option :value="true">encrypted</option>
                         </select>
