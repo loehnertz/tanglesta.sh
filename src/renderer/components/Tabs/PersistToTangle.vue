@@ -89,8 +89,8 @@
                 passwordInputClasses: '',
                 isPasswordVisible: false,
                 isEncrypted: false,
-                isPersisting: true,
-                donePersisting: true,
+                isPersisting: false,
+                donePersisting: false,
                 markyEntries: [],
                 progessPercentage: 0,
                 remainingTime: '00:00:00',
@@ -141,6 +141,9 @@
                 this.isPasswordVisible = !this.isPasswordVisible;
             },
             async persist() {
+                this.donePersisting = false;
+                this.isPersisting = true;
+
                 this.tanglestash = functions.tanglestash(this.provider, this.seed);
 
                 let markyReadoutLoop = setInterval(() => {
@@ -149,11 +152,13 @@
 
                 try {
                     this.entryHash = await this.tanglestash.saveToTangle(this.selectedFilePath, this.password);
-                    clearInterval(markyReadoutLoop);
                 } catch (err) {
-                    clearInterval(markyReadoutLoop);
                     functions.handleErrors(err);
                 }
+
+                clearInterval(markyReadoutLoop);
+                this.isPersisting = false;
+                this.donePersisting = true;
             },
         }
     }

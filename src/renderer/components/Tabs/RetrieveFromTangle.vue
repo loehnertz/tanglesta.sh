@@ -74,8 +74,8 @@
                 passwordInputClasses: '',
                 isPasswordVisible: false,
                 isEncrypted: false,
-                isRetrieving: true,
-                doneRetrieving: true,
+                isRetrieving: false,
+                doneRetrieving: false,
                 markyEntries: [],
                 progessPercentage: 0,
                 remainingTime: '00:00:00',
@@ -133,6 +133,9 @@
                 }, 1234);
             },
             async retrieve() {
+                this.doneRetrieving = false;
+                this.isRetrieving = true;
+
                 this.tanglestash = functions.tanglestash(this.provider, this.seed);
 
                 let markyReadoutLoop = setInterval(() => {
@@ -141,13 +144,15 @@
 
                 try {
                     let content = await this.tanglestash.readFromTangle(this.entryHash, this.password);
-                    clearInterval(markyReadoutLoop);
                     this.$electron.ipcRenderer.send('open-save-dialog');
                     this.saveRetrievedFile(content);
                 } catch (err) {
-                    clearInterval(markyReadoutLoop);
                     functions.handleErrors(err);
                 }
+
+                clearInterval(markyReadoutLoop);
+                this.isRetrieving = false;
+                this.doneRetrieving = true;
             },
         }
     }
