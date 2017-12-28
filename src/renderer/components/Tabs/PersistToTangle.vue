@@ -127,6 +127,9 @@
         },
         methods: {
             askForFileToPersist() {
+                this.isPersisting = false;
+                this.donePersisting = false;
+                this.entryHash = '';
                 this.$electron.ipcRenderer.send('open-file-dialog');
             },
             getFileName(filePath) {
