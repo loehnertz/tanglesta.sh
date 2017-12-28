@@ -39,7 +39,7 @@
                 <p class="control has-icons-left is-expanded">
                     <input class="input is-medium" type="text" placeholder="Default Save Location"
                            v-model="defaultSaveLocation"
-                           :disabled="!defaultLocation"
+                           :disabled="!useDefaultSaveLocation"
                            v-on:click="askForDefaultSaveLocation"
                     >
                     <span class="icon is-small is-left">
@@ -48,8 +48,8 @@
                 </p>
                 <p class="control">
                     <span class="select is-medium">
-                        <select title="defaultLocation"
-                                v-model="defaultLocation"
+                        <select title="useDefaultSaveLocation"
+                                v-model="useDefaultSaveLocation"
                                 v-on:change="resetDefaultSaveLocation"
                         >
                             <option :value="false">ask for every retrieval</option>
@@ -73,7 +73,7 @@
         data() {
             return ({
                 autoSeed: true,
-                defaultLocation: this.defaultSaveLocation ? true : false,
+                useDefaultSaveLocation: !this.defaultSaveLocation,
                 userDataLocation: null,
                 tanglestash: null,
             });
@@ -144,8 +144,14 @@
                 }
             },
             readSettingsFile(settings) {
-                if (settings.provider) this.provider = settings.provider;
-                if (settings.defaultSaveLocation) this.defaultSaveLocation = settings.defaultSaveLocation;
+                if (settings.provider) {
+                    this.provider = settings.provider;
+                }
+                if (settings.defaultSaveLocation) {
+                    this.defaultSaveLocation = settings.defaultSaveLocation;
+                } else {
+                    this.useDefaultSaveLocation = false;
+                }
             },
             writeSettingsFile(setting) {
                 fs.readFile(this.userDataLocation + UserDataFile, (err, data) => {
@@ -161,7 +167,10 @@
                 this.$electron.ipcRenderer.send('open-directory-dialog');
             },
             resetDefaultSaveLocation() {
-                this.$store.commit('setDefaultSaveLocation', '');
+                if (!this.useDefaultSaveLocation) {
+                    this.$store.commit('setDefaultSaveLocation', '');
+                    this.writeSettingsFile(['defaultSaveLocation', '']);
+                }
             },
         }
     }
