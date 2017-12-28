@@ -4,7 +4,10 @@
             <div class="field">
                 <label class="label">Node-Provider</label>
                 <p class="control has-icons-left">
-                    <input class="input is-medium" type="text" placeholder="Node-Provider" v-model="provider">
+                    <input class="input is-medium" type="text" placeholder="Node-Provider"
+                           v-model="provider"
+                           v-on:keyup="updateProvider"
+                    >
                     <span class="icon is-small is-left">
                         <i class="fa fa-server"></i>
                     </span>
@@ -127,6 +130,9 @@
                 if (this.autoSeed) {
                     this.$store.commit('setSeed', this.tanglestash.generateRandomIotaSeed());
                 }
+            },
+            updateProvider() {
+                this.writeSettingsFile(['provider', this.provider]);
             },
             retrieveUserData() {
                 if (fs.existsSync(this.userDataLocation + UserDataFile)) {
