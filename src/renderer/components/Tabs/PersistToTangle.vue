@@ -70,6 +70,7 @@
                 <label class="label">Entry-Hash</label>
                 <textarea id="entry-hash" class="textarea is-hovered is-large" title="entry-hash" readonly
                           v-model="entryHash"
+                          v-on:focus="$event.target.select()"
                 ></textarea>
             </div>
         </div>
@@ -184,9 +185,7 @@
     }
 
     #entry-hash {
-        min-height: 0;
-        max-height: 100px;
-        height: 100px;
+        height: 142px;
     }
 
     /* Overwriting Bulma's default styles for these */
