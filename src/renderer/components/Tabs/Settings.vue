@@ -63,8 +63,6 @@
 </template>
 
 <script>
-    const DefaultProvider = 'http://localhost:14265';
-
     export default {
         name: 'settings',
         data() {
@@ -103,18 +101,12 @@
             this.$electron.ipcRenderer.on('selected-directory', (event, path) => {
                 this.defaultSaveLocation = path[0];
             });
-
-            this.generateNewSeed();
-            this.setDefaultProvider();
         },
         methods: {
             generateNewSeed() {
                 if (this.autoSeed) {
                     this.$store.commit('setSeed', 'NEWSEED');  // TODO: Implement this
                 }
-            },
-            setDefaultProvider() {
-                this.provider = DefaultProvider;
             },
             askForDefaultSaveLocation() {
                 this.$electron.ipcRenderer.send('open-directory-dialog');

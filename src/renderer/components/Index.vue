@@ -16,6 +16,8 @@
 </template>
 
 <script>
+    const DefaultProvider = 'http://localhost:14265';
+
     import RetrieveFromTangle from './Tabs/RetrieveFromTangle'
     import PersistToTangle from './Tabs/PersistToTangle'
     import Settings from './Tabs/Settings'
@@ -24,15 +26,31 @@
         name: 'index',
         components: {RetrieveFromTangle, PersistToTangle, Settings},
         data() {
-            return({
+            return ({
                 prefixRetrieve: '<i class="fa fa-upload"></i>&nbsp;&nbsp;',
                 prefixPersist: '<i class="fa fa-download"></i>&nbsp;&nbsp;',
                 prefixSettings: '<i class="fa fa-cog"></i>&nbsp;&nbsp;',
             });
         },
+        computed: {
+            provider: {
+                get() {
+                    return this.$store.state.Settings.provider;
+                },
+                set(provider) {
+                    this.$store.commit('setProvider', provider);
+                }
+            },
+        },
+        mounted() {
+            this.setDefaultProvider();
+        },
         methods: {
             openLink(link) {
                 this.$electron.shell.openExternal(link);
+            },
+            setDefaultProvider() {
+                this.provider = DefaultProvider;
             },
         }
     }
