@@ -63,6 +63,9 @@
 </template>
 
 <script>
+    const UserDataFile = '/settings.json';
+
+    import fs from 'fs'
     import functions from '../../functions'
 
     export default {
@@ -70,7 +73,8 @@
         data() {
             return ({
                 autoSeed: true,
-                defaultLocation: false,
+                defaultLocation: this.defaultSaveLocation ? true : false,
+                userDataLocation: null,
                 tanglestash: null,
             });
         },
@@ -101,10 +105,17 @@
             },
         },
         mounted() {
-            this.$electron.ipcRenderer.on('selected-directory', (event, path) => {
-                this.defaultSaveLocation = path[0];
+            this.$electron.ipcRenderer.on('retrieved-userdata-location', (event, path) => {
+                this.userDataLocation = path;
+                this.retrieveUserData();
             });
 
+            this.$electron.ipcRenderer.on('selected-directory', (event, path) => {
+                this.defaultSaveLocation = path[0];
+                this.writeSettingsFile(['defaultSaveLocation', this.defaultSaveLocation]);
+            });
+
+            this.$electron.ipcRenderer.send('get-userdata-location');
             this.setupTanglestash();
             this.generateNewSeed();
         },
@@ -116,6 +127,35 @@
                 if (this.autoSeed) {
                     this.$store.commit('setSeed', this.tanglestash.generateRandomIotaSeed());
                 }
+            },
+            retrieveUserData() {
+                if (fs.existsSync(this.userDataLocation + UserDataFile)) {
+                    fs.readFile(this.userDataLocation + UserDataFile, (err, data) => {
+                        this.readSettingsFile(JSON.parse(data));
+                    });
+                } else {
+                    fs.writeFileSync(
+                        this.userDataLocation + UserDataFile,
+                        JSON.stringify({
+                            provider: '',
+                            defaultSaveLocation: '',
+                        }),
+                    );
+                }
+            },
+            readSettingsFile(settings) {
+                if (settings.provider) this.provider = settings.provider;
+                if (settings.defaultSaveLocation) this.defaultSaveLocation = settings.defaultSaveLocation;
+            },
+            writeSettingsFile(setting) {
+                fs.readFile(this.userDataLocation + UserDataFile, (err, data) => {
+                    data = JSON.parse(data);
+                    data[setting[0]] = setting[1];
+                    fs.writeFileSync(
+                        this.userDataLocation + UserDataFile,
+                        JSON.stringify(data),
+                    );
+                });
             },
             askForDefaultSaveLocation() {
                 this.$electron.ipcRenderer.send('open-directory-dialog');

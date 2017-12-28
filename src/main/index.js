@@ -64,7 +64,7 @@ ipcMain.on('open-file-dialog', (e) => {
     dialog.showOpenDialog({
         properties: ['openFile']
     }, (files) => {
-        if (files) e.sender.send('selected-file', files)
+        if (files) e.sender.send('selected-file', files);
     });
 });
 
@@ -72,6 +72,10 @@ ipcMain.on('open-directory-dialog', (e) => {
     dialog.showOpenDialog({
         properties: ['openDirectory']
     }, (directories) => {
-        if (directories) e.sender.send('selected-directory', directories)
+        if (directories) e.sender.send('selected-directory', directories);
     });
+});
+
+ipcMain.on('get-userdata-location', (e) => {
+    e.sender.send('retrieved-userdata-location', app.getPath('userData'));
 });
