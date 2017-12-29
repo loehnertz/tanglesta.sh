@@ -17,24 +17,30 @@ export default {
         return new Tanglestash(provider, 'file', seed);
     },
     handleErrors(err) {
-        // TODO: Switch to modal error messages
+        let customErrorMessage = '';
         switch (err.name) {
             case new IncorrectPasswordError().name:
-                console.error("The provided password is not correct!", err.message);
+                customErrorMessage = 'The provided password is not correct!';
                 break;
             case new IncorrentDatatypeError().name:
-                console.error("The provided datatype does not exist!", err.message);
+                customErrorMessage = 'The provided datatype does not exist!';
                 break;
             case new IncorrectTransactionHashError().name:
-                console.error("The provided entry-hash is not valid!", err.message);
+                customErrorMessage = 'The provided entry-hash is not valid!';
                 break;
             case new NodeOutdatedError().name:
-                console.error("The provided node is outdated!", err.message);
+                customErrorMessage = 'The provided node is outdated!';
                 break;
             default:
-                console.error("An unidentified error occured!", err);
+                if (err.message.includes('Invalid Response')) {
+                    customErrorMessage = 'A connection to the provided node could not be established!';
+                } else {
+                    customErrorMessage = 'An unidentified error occured!';
+                }
                 break;
         }
+        console.error(customErrorMessage, err);
+        return customErrorMessage;
     },
     calculateProgessAndRemainingTime(position, total, markyEntries, timeElapsed) {
         let totalTimeSoFar = 0;
