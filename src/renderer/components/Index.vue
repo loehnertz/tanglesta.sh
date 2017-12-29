@@ -1,6 +1,9 @@
 <template>
     <main>
-        <h1 v-on:click="openLink('http://tanglesta.sh/')">tanglesta.sh</h1>
+        <header v-on:click="openLink('http://tanglesta.sh/')">
+            <img id="logo" src="~@/assets/logo.png" alt="Logo">
+            <h1>tanglesta.sh</h1>
+        </header>
         <tabs>
             <tab name="Retrieve" :prefix="prefixRetrieve">
                 <retrieve-from-tangle></retrieve-from-tangle>
@@ -57,11 +60,21 @@
 </script>
 
 <style>
-    h1 {
-        flex-basis: 10%;
-        font-size: 2rem;
-        text-align: center;
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
+        padding-bottom: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    #logo {
+        height: 4rem;
+        margin-right: .5rem;
     }
 
     .tabs-component-tabs {
@@ -101,14 +114,24 @@
     }
 
     .tabs-component-panels {
+        background-color: #fff;
+        border: solid 1px #ddd;
+        border-radius: 0 0 6px 6px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .05);
         padding: 2em 0;
+    }
+
+    @media (max-width: 420px) {
+        html {
+            font-size: 14px;
+        }
     }
 
     @media (min-width: 700px) {
         .tabs-component {
             display: flex;
             flex-direction: column;
-            flex-basis: 90%;
+            flex: 1;
         }
 
         .tabs-component-tabs {
@@ -145,16 +168,7 @@
             flex: 1;
             position: relative;
             z-index: 2;
-            background-color: #fff;
-            border: solid 1px #ddd;
-            border-radius: 0 0 6px 6px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, .05);
             padding: 2em 2em;
-        }
-
-        .tabs-component-tab i {
-            position: relative;
-            top: 1px;
         }
     }
 </style>
