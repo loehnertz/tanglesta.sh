@@ -1,7 +1,7 @@
 {
   "name": "tanglesta.sh",
   "productName": "tanglesta.sh",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "Jakob Löhnertz",
   "description": "The Electron app implementing my project 'Tanglestash'",
   "license": "MIT",
