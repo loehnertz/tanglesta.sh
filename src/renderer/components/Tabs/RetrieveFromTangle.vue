@@ -58,6 +58,7 @@
                 <span id="file-path" v-on:click="openFilePath">{{ saveFilePath }}</span>
             </div>
         </div>
+        <v-dialog/>
     </section>
 </template>
 
@@ -123,6 +124,32 @@
             this.setPasswordVisibility();
         },
         methods: {
+            showDialog(title, text) {
+                title = title || 'Error';
+                text = text || 'An error occured!';
+
+                this.$modal.show('dialog', {
+                    title: title,
+                    text: text,
+                    buttons: [
+                        {
+                            title: 'Close',
+                            default: true,  // Will be triggered if 'Enter' is pressed
+                            handler: () => {
+                                this.hideDialog();
+                            },
+                        }
+                    ]
+                });
+
+                // This call is needed due to a bug that deranges the 'z-index' of the tabs
+                this.$electron.ipcRenderer.send('decrease-z-index-for-modal');
+            },
+            hideDialog() {
+                // This call is needed due to a bug that deranges the 'z-index' of the tabs
+                this.$electron.ipcRenderer.send('increase-z-index-for-modal');
+                this.$modal.hide('dialog');
+            },
             openFilePath() {
                 this.$electron.shell.showItemInFolder(this.saveFilePath ? this.saveFilePath : '');
             },
@@ -168,13 +195,15 @@
                     let content = await this.tanglestash.readFromTangle(this.entryHash, this.password);
                     this.$electron.ipcRenderer.send('open-save-dialog', this.defaultSaveLocation);
                     this.saveRetrievedFile(content);
+                    this.doneRetrieving = true;
                 } catch (err) {
-                    functions.handleErrors(err);
+                    let errorMessage = functions.handleErrors(err);
+                    this.showDialog('Error', errorMessage);
+                    this.doneRetrieving = false;
                 }
 
-                clearInterval(markyReadoutLoop);
                 this.isRetrieving = false;
-                this.doneRetrieving = true;
+                clearInterval(markyReadoutLoop);
             },
         }
     }

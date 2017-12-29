@@ -74,6 +74,7 @@
                 ></textarea>
             </div>
         </div>
+        <v-dialog/>
     </section>
 </template>
 
@@ -126,6 +127,32 @@
             this.setPasswordVisibility();
         },
         methods: {
+            showDialog(title, text) {
+                title = title || 'Error';
+                text = text || 'An error occured!';
+
+                this.$modal.show('dialog', {
+                    title: title,
+                    text: text,
+                    buttons: [
+                        {
+                            title: 'Close',
+                            default: true,  // Will be triggered if 'Enter' is pressed
+                            handler: () => {
+                                this.hideDialog();
+                            },
+                        }
+                    ]
+                });
+
+                // This call is needed due to a bug that deranges the 'z-index' of the tabs
+                this.$electron.ipcRenderer.send('decrease-z-index-for-modal');
+            },
+            hideDialog() {
+                // This call is needed due to a bug that deranges the 'z-index' of the tabs
+                this.$electron.ipcRenderer.send('increase-z-index-for-modal');
+                this.$modal.hide('dialog');
+            },
             askForFileToPersist() {
                 this.isPersisting = false;
                 this.donePersisting = false;
@@ -167,13 +194,15 @@
 
                 try {
                     this.entryHash = await this.tanglestash.saveToTangle(this.selectedFilePath, this.password);
+                    this.donePersisting = true;
                 } catch (err) {
-                    functions.handleErrors(err);
+                    let errorMessage = functions.handleErrors(err);
+                    this.showDialog('Error', errorMessage);
+                    this.donePersisting = false;
                 }
 
-                clearInterval(markyReadoutLoop);
                 this.isPersisting = false;
-                this.donePersisting = true;
+                clearInterval(markyReadoutLoop);
             },
         }
     }
