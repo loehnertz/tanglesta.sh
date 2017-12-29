@@ -231,8 +231,12 @@
         height: 142px;
     }
 
-    /* Overwriting Bulma's default styles for these */
+    /*
+     Overwriting Bulma's default styles for these.
+     Had to add an '!important' here because otherwise the rules would be overwritten
+     during the building process even though the CSS cascade was correct.
+    */
     .control.is-loading::after {
-        top: 0.725em;
+        top: 0.725em !important;
     }
 </style>

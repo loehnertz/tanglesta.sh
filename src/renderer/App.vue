@@ -36,7 +36,11 @@
         padding: 1rem;
     }
 
-    /* Overwriting Bulma's default styles for these */
+    /*
+     Overwriting Bulma's default styles for these.
+     Had to add a lot of '!important' here because otherwise the rules would be overwritten
+     during the building process even though the CSS cascade was correct.
+    */
     .input:focus,
     .input.is-focused,
     .input:active,
@@ -45,16 +49,16 @@
     .textarea.is-focused,
     .textarea:active,
     .textarea.is-active {
-        border-color: #00d1b2;
-        -webkit-box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
-        box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
+        border-color: #00d1b2 !important;
+        -webkit-box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25) !important;
+        box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25) !important;
     }
 
     .file-name {
-        max-width: 15em;
+        max-width: 15em !important;
     }
 
     .notification {
-        text-align: center;
+        text-align: center !important;
     }
 </style>
