@@ -62,6 +62,7 @@
                 </p>
             </div>
         </div>
+        <v-dialog/>
     </section>
 </template>
 
@@ -123,6 +124,32 @@
             this.generateNewSeed();
         },
         methods: {
+            showDialog(title, text) {
+                title = title || 'Error';
+                text = text || 'An error occured!';
+
+                this.$modal.show('dialog', {
+                    title: title,
+                    text: text,
+                    buttons: [
+                        {
+                            title: 'Close',
+                            default: true,  // Will be triggered if 'Enter' is pressed
+                            handler: () => {
+                                this.hideDialog();
+                            },
+                        }
+                    ]
+                });
+
+                // This call is needed due to a bug that deranges the 'z-index' of the tabs
+                this.$electron.ipcRenderer.send('decrease-z-index-for-modal');
+            },
+            hideDialog() {
+                // This call is needed due to a bug that deranges the 'z-index' of the tabs
+                this.$electron.ipcRenderer.send('increase-z-index-for-modal');
+                this.$modal.hide('dialog');
+            },
             setupTanglestash() {
                 this.tanglestash = functions.tanglestash(this.provider, this.seed);
             },
@@ -137,7 +164,12 @@
             retrieveUserData() {
                 if (fs.existsSync(this.userDataLocation + UserDataFile)) {
                     fs.readFile(this.userDataLocation + UserDataFile, (err, data) => {
-                        this.readSettingsFile(JSON.parse(data));
+                        if (err) {
+                            let errorMessage = functions.handleErrors(err);
+                            this.showDialog('Error', errorMessage);
+                        } else {
+                            this.readSettingsFile(JSON.parse(data));
+                        }
                     });
                 } else {
                     fs.writeFileSync(
@@ -161,12 +193,17 @@
             },
             writeSettingsFile(setting) {
                 fs.readFile(this.userDataLocation + UserDataFile, (err, data) => {
-                    data = JSON.parse(data);
-                    data[setting[0]] = setting[1];
-                    fs.writeFileSync(
-                        this.userDataLocation + UserDataFile,
-                        JSON.stringify(data),
-                    );
+                    if (err) {
+                        let errorMessage = functions.handleErrors(err);
+                        this.showDialog('Error', errorMessage);
+                    } else {
+                        data = JSON.parse(data);
+                        data[setting[0]] = setting[1];
+                        fs.writeFileSync(
+                            this.userDataLocation + UserDataFile,
+                            JSON.stringify(data),
+                        );
+                    }
                 });
             },
             askForDefaultSaveLocation() {
