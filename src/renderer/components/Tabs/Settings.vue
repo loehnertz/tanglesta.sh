@@ -40,7 +40,7 @@
             <label class="label">Default Save Location</label>
             <div class="field has-addons">
                 <p class="control has-icons-left is-expanded">
-                    <input class="input is-medium" type="text" placeholder="Default Save Location"
+                    <input class="input is-medium" type="text" placeholder="Default Save Location" readonly
                            v-model="defaultSaveLocation"
                            :disabled="!useDefaultSaveLocation"
                            v-on:click="askForDefaultSaveLocation"
