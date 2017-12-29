@@ -60,21 +60,26 @@
 </script>
 
 <style>
+    /*
+     Had to add a lot of '!important' here because otherwise the rules would be overwritten
+     during the building process even though the CSS cascade was correct.
+    */
+
     header {
-        display: flex;
+        display: flex !important;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        padding-bottom: 1.5rem;
+        padding-bottom: 1.5rem !important;
     }
 
     h1 {
-        font-size: 2.5rem;
+        font-size: 2.5rem !important;
     }
 
     #logo {
-        height: 4rem;
-        margin-right: .5rem;
+        height: 4rem !important;
+        margin-right: .5rem !important;
     }
 
     .tabs-component-tabs {
