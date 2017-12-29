@@ -30,8 +30,8 @@
         components: {RetrieveFromTangle, PersistToTangle, Settings},
         data() {
             return ({
-                prefixRetrieve: '<i class="fa fa-upload"></i>&nbsp;&nbsp;',
-                prefixPersist: '<i class="fa fa-download"></i>&nbsp;&nbsp;',
+                prefixRetrieve: '<i class="fa fa-download"></i>&nbsp;&nbsp;',
+                prefixPersist: '<i class="fa fa-upload"></i>&nbsp;&nbsp;',
                 prefixSettings: '<i class="fa fa-cog"></i>&nbsp;&nbsp;',
             });
         },
