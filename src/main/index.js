@@ -180,3 +180,11 @@ ipcMain.on('open-directory-dialog', (e) => {
 ipcMain.on('get-userdata-location', (e) => {
     e.sender.send('retrieved-userdata-location', app.getPath('userData'));
 });
+
+ipcMain.on('decrease-z-index-for-modal', (e) => {
+    e.sender.sendToAll('decrease-z-index-for-modal');
+});
+
+ipcMain.on('increase-z-index-for-modal', (e) => {
+    e.sender.sendToAll('increase-z-index-for-modal');
+});

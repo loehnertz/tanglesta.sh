@@ -46,6 +46,15 @@
             },
         },
         mounted() {
+            // These two listeners are needed due to a bug that deranges the 'z-index' of the tabs
+            this.$electron.ipcRenderer.on('decrease-z-index-for-modal', () => {
+                document.getElementsByClassName('is-active')[0].style.zIndex = 2;
+            });
+
+            this.$electron.ipcRenderer.on('increase-z-index-for-modal', () => {
+                document.getElementsByClassName('is-active')[0].style.zIndex = null;
+            });
+
             this.setDefaultProvider();
         },
         methods: {
