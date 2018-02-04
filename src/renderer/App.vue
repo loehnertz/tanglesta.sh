@@ -21,15 +21,17 @@
 
     body {
         font-family: 'Source Sans Pro', sans-serif;
+        background-color: whitesmoke;
     }
 
     main {
         display: flex;
         flex-direction: column;
-        background-color: whitesmoke;
         height: 100vh;
         width: 100vw;
+        max-width: 960px;
         padding: 2rem;
+        margin: 0 auto;
     }
 
     section {
