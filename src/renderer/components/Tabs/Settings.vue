@@ -71,6 +71,7 @@
 
     import fs from 'fs'
     import functions from '../../functions'
+    import {Helpers} from 'tanglestash'
 
     export default {
         name: 'settings',
@@ -155,7 +156,7 @@
             },
             generateNewSeed() {
                 if (this.autoSeed) {
-                    this.$store.commit('setSeed', this.tanglestash.generateRandomIotaSeed());
+                    this.$store.commit('setSeed', Helpers.generateRandomIotaSeed());
                 }
             },
             updateProvider() {
