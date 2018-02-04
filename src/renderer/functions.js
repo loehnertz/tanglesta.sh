@@ -1,12 +1,6 @@
 import moment from 'moment'
-import momentDurationFormatSetup from 'moment-duration-format';
-import {
-    Tanglestash,
-    IncorrectPasswordError,
-    IncorrentDatatypeError,
-    IncorrectTransactionHashError,
-    NodeOutdatedError,
-} from 'tanglestash'
+import momentDurationFormatSetup from 'moment-duration-format'
+import {Tanglestash, Errors} from 'tanglestash'
 
 momentDurationFormatSetup(moment);
 
@@ -19,17 +13,20 @@ export default {
     handleErrors(err) {
         let customErrorMessage = '';
         switch (err.name) {
-            case new IncorrectPasswordError().name:
+            case new Errors.IncorrectPasswordError().name:
                 customErrorMessage = 'The provided password is not correct!';
                 break;
-            case new IncorrentDatatypeError().name:
+            case new Errors.IncorrectDatatypeError().name:
                 customErrorMessage = 'The provided datatype does not exist!';
                 break;
-            case new IncorrectTransactionHashError().name:
+            case new Errors.IncorrectTransactionHashError().name:
                 customErrorMessage = 'The provided entry-hash is not valid!';
                 break;
-            case new NodeOutdatedError().name:
+            case new Errors.NodeOutdatedError().name:
                 customErrorMessage = 'The provided node is outdated!';
+                break;
+            case new Errors.MalformedPersistedDataError().name:
+                customErrorMessage = 'The data behind the provided entry-hash is malformed!';
                 break;
             default:
                 if (err.message.includes('Invalid Response')) {
