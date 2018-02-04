@@ -178,7 +178,7 @@
                 this.tanglestash = functions.tanglestash(this.provider, this.seed);
 
                 let timeElapsed = 0;
-                let markyReadoutLoopInterval = 420;  // Always in milliseconds
+                let markyReadoutLoopInterval = 1000;  // Always in milliseconds
                 let markyReadoutLoop = setInterval(() => {
                     this.markyEntries = this.tanglestash.getAllMarkyEntries();
                     let progressAndRemainingTime = functions.calculateProgessAndRemainingTime(
