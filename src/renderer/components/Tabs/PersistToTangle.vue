@@ -182,7 +182,7 @@
                 let markyReadoutLoop = setInterval(() => {
                     this.markyEntries = this.tanglestash.getAllMarkyEntries();
                     let progressAndRemainingTime = functions.calculateProgessAndRemainingTime(
-                        this.tanglestash.currentChunkPosition,
+                        this.tanglestash.successfulChunks,
                         this.tanglestash.totalChunkAmount,
                         this.markyEntries,
                         timeElapsed,
