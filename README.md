@@ -44,7 +44,7 @@ was persisted in the past using its `Entry Hash` or persist a new file onto the 
 \
 Here's an `Entry Hash` to test the application. It's an image so you need to save it as a `.jpg` file. It's not encrypted.
 ```
-Y9NLYIRRZPZOFZCIFVZUASRYXCRJXXFFZABRVULDOROWKVIQYQNNDEKAZODTJVTEXHW9AXHQQEZIZ9999
+XEBWUNJA9LJDZCEFYDIMU9VGYCUYXMZTWYCKQIYSBGJMDRMPERCWQMHXYXQQSQGMWQVWSQCWOCBG99999
 ```
 
 
