@@ -6,7 +6,7 @@ The Electron application implementing my project [Tanglestash](https://github.co
 
 You can download the application directly from GitHub.
 It is available for Windows, macOS and Linux.
-Get the latest release v2.0.0 right **[here](https://github.com/loehnertz/tanglesta.sh/releases/tag/v2.0.0)**.
+Get the latest release v2.0.0 right **[here](https://github.com/loehnertz/tanglesta.sh/releases/tag/v2.1.0)**.
 
 
 ## Features
